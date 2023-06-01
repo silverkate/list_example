@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:list_example/data/models/item_model.dart';
 
+/// Single item of the GridView on the [ListPage].
 class ItemWidget extends StatelessWidget {
   const ItemWidget({
     required this.item,

@@ -17,7 +17,11 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
+  /// List of elements.
   final _list = <ItemModel>[];
+
+  /// Tracking if the progress is displayed.
+  var _isProgressShown = false;
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +81,7 @@ class _ListPageState extends State<ListPage> {
           floatingActionButton: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              /// Add a new element FAB.
               FloatingActionButton(
                 onPressed: _addNewItem,
                 backgroundColor: Colors.green,
@@ -85,6 +90,7 @@ class _ListPageState extends State<ListPage> {
               const SizedBox(
                 height: 10,
               ),
+              /// Delete last element FAB.
               FloatingActionButton(
                 onPressed: _removeLastItem,
                 backgroundColor: Colors.red,
@@ -110,6 +116,11 @@ class _ListPageState extends State<ListPage> {
   }
 
   void _onAction(BuildContext context, BaseState state) {
+    if (_isProgressShown) {
+      _isProgressShown = false;
+      Navigator.of(context).pop();
+    }
+
     if (state is ErrorState) {
       showDialog(
         context: context,
@@ -126,10 +137,29 @@ class _ListPageState extends State<ListPage> {
           ],
         ),
       );
-    } else if (state is ProgressState) {}
+    } else if (state is ProgressState) {
+      _isProgressShown = true;
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              CircularProgressIndicator(),
+            ],
+          );
+        },
+      );
+    }
   }
 
   void onRebuild(BuildContext context, BaseState state) {
+    if (_isProgressShown) {
+      _isProgressShown = false;
+      Navigator.of(context).pop();
+    }
+
     if (state is AddItemState) {
       _list.add(state.item ?? ItemModel(name: 'null'));
     } else if (state is DeleteItemState) {
