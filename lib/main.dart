@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:list_example/base/base_state.dart';
+import 'package:list_example/pages/list_page/bloc/item_bloc.dart';
 import 'package:list_example/pages/list_page/list_page.dart';
 
 void main() {
@@ -15,7 +18,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ListPage(),
+      home: BlocProvider(
+        create: (_) => ItemBloc(),
+        child: const ListPage(),
+      ),
     );
   }
 }
