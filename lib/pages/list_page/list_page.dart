@@ -34,7 +34,7 @@ class _ListPageState extends State<ListPage> {
         return state is AddItemState || state is DeleteItemState;
       },
       builder: (context, state) {
-        onRebuild(context, state);
+        _onRebuild(context, state);
 
         return Scaffold(
           appBar: AppBar(
@@ -53,9 +53,13 @@ class _ListPageState extends State<ListPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(),
+
+                    /// The logo.
                     Image.asset(
                       Assets.logo,
                     ),
+
+                    /// The list of items.
                     GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -90,6 +94,7 @@ class _ListPageState extends State<ListPage> {
               const SizedBox(
                 height: 10,
               ),
+
               /// Delete last element FAB.
               FloatingActionButton(
                 onPressed: _removeLastItem,
@@ -103,6 +108,7 @@ class _ListPageState extends State<ListPage> {
     );
   }
 
+  /// Removes the last item via bloc.
   void _removeLastItem() {
     if (_list.isEmpty) {
       return;
@@ -111,10 +117,12 @@ class _ListPageState extends State<ListPage> {
     context.read<ItemBloc>().add(DeleteItemEvent());
   }
 
+  /// Adds a new item via bloc.
   void _addNewItem() {
     context.read<ItemBloc>().add(GetNewItemEvent(_list.length));
   }
 
+  /// Handling the states when the page is not rebuild (showing dialogs).
   void _onAction(BuildContext context, BaseState state) {
     if (_isProgressShown) {
       _isProgressShown = false;
@@ -154,7 +162,8 @@ class _ListPageState extends State<ListPage> {
     }
   }
 
-  void onRebuild(BuildContext context, BaseState state) {
+  /// Handling the states when the page is rebuild.
+  void _onRebuild(BuildContext context, BaseState state) {
     if (_isProgressShown) {
       _isProgressShown = false;
       Navigator.of(context).pop();

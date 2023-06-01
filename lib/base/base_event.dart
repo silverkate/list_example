@@ -1,2 +1,2 @@
-/// Event being processed by Bloc.
+/// Base event being processed by Bloc.
 abstract class BaseEvent {}
