@@ -15,9 +15,13 @@ class ItemBloc extends Bloc<BaseEvent, BaseState> {
   final _itemProvider = ItemProvider();
 
   Future<BaseState> _getNewItem(GetNewItemEvent event) async {
-    final item = await _itemProvider.getNextItem(event.index);
+    try {
+      final item = await _itemProvider.getNextItem(event.index);
 
-    return AddItemState(item);
+      return AddItemState(item);
+    } catch (e) {
+      return ErrorState('This is a mocked error.');
+    }
   }
 
   BaseState _deleteItem() {

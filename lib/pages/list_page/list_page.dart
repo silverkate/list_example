@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:list_example/base/base_state.dart';
@@ -110,6 +111,21 @@ class _ListPageState extends State<ListPage> {
 
   void _onAction(BuildContext context, BaseState state) {
     if (state is ErrorState) {
+      showDialog(
+        context: context,
+        builder: (_) => CupertinoAlertDialog(
+          title: const Text('Error'),
+          content: Text(state.error),
+          actions: [
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      );
     } else if (state is ProgressState) {}
   }
 

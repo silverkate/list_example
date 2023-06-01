@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:list_example/base/base_state.dart';
 import 'package:list_example/pages/list_page/bloc/item_bloc.dart';
 import 'package:list_example/pages/list_page/list_page.dart';
 
